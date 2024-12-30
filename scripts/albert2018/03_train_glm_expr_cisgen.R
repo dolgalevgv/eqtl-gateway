@@ -1,5 +1,4 @@
 suppressPackageStartupMessages({
-  library(caret)
   library(dplyr)
   library(glmnet)
   library(nestedcv)
@@ -57,7 +56,7 @@ for (gene in colnames(expr_irn_rc_train)) {
     alphaSet = seq(0.1, 0.9, 0.2),
     n_inner_folds = 5,
     n_outer_folds = 5,
-    cv.cores = 5
+    cv.cores = 20
   )
 
   res <- append(res, list(data.frame(
