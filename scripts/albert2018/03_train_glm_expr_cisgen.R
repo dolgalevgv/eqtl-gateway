@@ -10,18 +10,15 @@ suppressPackageStartupMessages({
 
 options(readr.show_col_types = FALSE)
 
-# This script is run on PALMA
-setwd("/scratch/tmp/dolgalev/eqtl-gateway")
-
 # Random seed for cross-validation
 set.seed(42)
 
 # Range for defining genetic variants as cis
 CIS_WINDOW <- 2e+4
 
-annot <- readr::read_tsv("data/albert2018/processed/albert2018_genes.tsv")
-expr_irn_rc_train <- readr::read_tsv("data/albert2018/interim/albert2018_expression_logtpm_irn_regcov_train.tsv")
-gen_train <- readr::read_tsv("data/albert2018/interim/albert2018_genotypes_train.tsv")
+annot <- readr::read_tsv("../data/albert2018/processed/albert2018_genes.tsv")
+expr_irn_rc_train <- readr::read_tsv("../data/albert2018/interim/albert2018_expression_logtpm_irn_regcov_train.tsv")
+gen_train <- readr::read_tsv("../data/albert2018/interim/albert2018_genotypes_train.tsv")
 
 res <- list()
 res_coef <- list()
@@ -86,5 +83,5 @@ for (gene in colnames(expr_irn_rc_train)) {
 res <- dplyr::bind_rows(res)
 res_coef <- dplyr::bind_rows(res_coef)
 
-readr::write_tsv(res, "results/albert2018/expr_cisgen_glm_stats.tsv")
-readr::write_tsv(res, "results/albert2018/expr_cisgen_glm_coefs.tsv")
+readr::write_tsv(res, "../results/albert2018/expr_cisgen_glm_stats.tsv")
+readr::write_tsv(res, "../results/albert2018/expr_cisgen_glm_coefs.tsv")
