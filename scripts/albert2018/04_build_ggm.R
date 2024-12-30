@@ -11,7 +11,7 @@ RcppParallel::setThreadOptions(numThreads = 24)
 
 expr_irn_rc_train <- readr::read_tsv("../../data/albert2018/interim/albert2018_expression_logtpm_irn_regcov_train.tsv")
 
-ggm <- FastGGM::FastGGM_Parallel(expr_irn_rc_train)
+ggm <- FastGGM::FastGGM_Parallel(as.matrix(expr_irn_rc_train))
 
 ggm[["gene_id"]] <- colnames(expr_irn_rc_train)
 
