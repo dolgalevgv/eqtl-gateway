@@ -35,7 +35,7 @@ for (gene in colnames(expr_irn_rc_train)) {
     tibble::column_to_rownames("variant_id") |>
     t()
 
-  if (ncol(gene_var) == 0) {
+  if (ncol(gene_var) < 3) {
     res <- append(res, list(data.frame(
       gene_id = gene,
       n_var = 0,
