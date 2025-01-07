@@ -38,7 +38,7 @@ for (gene in colnames(expr_irn_rc_train)) {
   if (ncol(gene_var) < 3) {
     res <- append(res, list(data.frame(
       gene_id = gene,
-      n_var = 0,
+      n_var = ncol(gene_var),
       n_var_sig = NA,
       r2 = NA,
       rmse = NA,
@@ -72,10 +72,16 @@ for (gene in colnames(expr_irn_rc_train)) {
   if (!is.null(nrow(res_glm[["final_coef"]]))) {
     res_coef <- append(res_coef, list(
       res_glm[["final_coef"]] |>
-        tibble::rownames_to_column("variant_id") |>
+        tibble::rownames_to_column("var") |>
         dplyr::select(-meanExp) |>
-        dplyr::mutate(gene_id = gene, .before = 1)
+        dplyr::mutate(gene = gene, .before = 1)
     ))
+  } else {
+    res_coef <- append(res_coef, list(data.frame(
+      gene = gene,
+      var = "(Intercept)",
+      coef = res_glm[["final_coef"]]
+    )))
   }
 }
 
@@ -83,4 +89,4 @@ res <- dplyr::bind_rows(res)
 res_coef <- dplyr::bind_rows(res_coef)
 
 readr::write_tsv(res, "../../results/albert2018/expr_cisgen_glm_stats.tsv")
-readr::write_tsv(res, "../../results/albert2018/expr_cisgen_glm_coefs.tsv")
+readr::write_tsv(res_coef, "../../results/albert2018/expr_cisgen_glm_coefs.tsv")
